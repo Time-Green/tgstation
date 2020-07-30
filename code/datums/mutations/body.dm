@@ -497,3 +497,29 @@
 /datum/mutation/human/headless/proc/abortattachment(datum/source, obj/item/bodypart/new_limb, special) //you aren't getting your head back
 	if(istype(new_limb, /obj/item/bodypart/head))
 		return COMPONENT_NO_ATTACH
+
+/datum/mutation/human/species
+	name = "Species Adaptation"
+	desc = "A mutation that transforms the subject in another species for the duration of the mutation."
+	locked = TRUE
+	quality = POSITIVE
+	text_gain_indication = "<span class='warning'>You change into another species.</span>"
+
+	var/target_species = /datum/species/human
+	var/old_species
+
+/datum/mutation/human/species/on_acquiring()
+	. = ..()
+	if(.)
+		return TRUE
+
+	old_species = owner.dna.species
+
+	owner.set_species(target_species)
+
+/datum/mutation/human/species/on_losing()
+	. = ..()
+	if(.)
+		return TRUE
+
+	owner.set_species(old_species)
