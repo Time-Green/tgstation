@@ -733,3 +733,13 @@
 	var/ramp_up_final = clamp(round(meteorminutes/rampupdelta), 1, 10)
 
 	spawn_meteors(ramp_up_final, wavetype)
+
+/datum/dynamic_ruleset/roundstart/miscreant
+	name = "Miscreants"
+	persistent = TRUE
+	antag_datum = /datum/antagonist/miscreant
+	required_candidates = 1
+	weight = 3
+	cost = 5
+	scaling_cost = 3
+	requirements = list(20,10,5,5,5,5,5,5,5,5)
