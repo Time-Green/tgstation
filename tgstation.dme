@@ -1038,6 +1038,7 @@
 #include "code\datums\elements\strippable.dm"
 #include "code\datums\elements\swabbable.dm"
 #include "code\datums\elements\tenacious.dm"
+#include "code\datums\elements\tile_elevation.dm"
 #include "code\datums\elements\tool_flash.dm"
 #include "code\datums\elements\turf_transparency.dm"
 #include "code\datums\elements\undertile.dm"
