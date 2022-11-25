@@ -41,7 +41,7 @@
 	))
 	// If the blood draining tab should be greyed out
 	var/inject_only = FALSE
-	///FALSE to make beaker unremovable
+	///FALSE to make beaker unremovable. Note that using internal storage also makes a beaker unremovable
 	var/can_remove_beaker = TRUE
 
 /obj/machinery/iv_drip/Initialize(mapload)
@@ -85,7 +85,7 @@
 		data["containerMaxVolume"] = drip_reagents.maximum_volume
 		data["containerReagentColor"] = mix_color_from_reagents(drip_reagents.reagent_list)
 	data["useInternalStorage"] = use_internal_storage
-	data["isContainerRemovable"] = !use_internal_storage && !istype(src, /obj/machinery/iv_drip/saline)
+	data["isContainerRemovable"] = !use_internal_storage && can_remove_beaker
 	return data
 
 /obj/machinery/iv_drip/ui_act(action, params)
@@ -310,12 +310,12 @@
 	set name = "Remove IV Container"
 	set src in view(1)
 
-	if(!isliving(usr) || !can_remove_beaker)
+	if(!isliving(usr))
 		to_chat(usr, span_warning("You can't do that!"))
 		return
-	if (!usr.canUseTopic())
+	if (!usr.canUseTopic() || usr.incapacitated())
 		return
-	if(usr.incapacitated())
+	if(!can_remove_beaker || use_internal_storage)
 		return
 	if(reagent_container)
 		if(attached)
@@ -389,7 +389,6 @@
 	density = TRUE
 	inject_only = TRUE
 	can_remove_beaker = FALSE
-
 
 /obj/machinery/iv_drip/saline/Initialize(mapload)
 	AddElement(/datum/element/update_icon_blocker)
