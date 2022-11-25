@@ -41,6 +41,8 @@
 	))
 	// If the blood draining tab should be greyed out
 	var/inject_only = FALSE
+	///FALSE to make beaker unremovable
+	var/can_remove_beaker = TRUE
 
 /obj/machinery/iv_drip/Initialize(mapload)
 	. = ..()
@@ -308,7 +310,7 @@
 	set name = "Remove IV Container"
 	set src in view(1)
 
-	if(!isliving(usr))
+	if(!isliving(usr) || !can_remove_beaker)
 		to_chat(usr, span_warning("You can't do that!"))
 		return
 	if (!usr.canUseTopic())
@@ -386,17 +388,13 @@
 	base_icon_state = "saline"
 	density = TRUE
 	inject_only = TRUE
+	can_remove_beaker = FALSE
+
 
 /obj/machinery/iv_drip/saline/Initialize(mapload)
 	AddElement(/datum/element/update_icon_blocker)
 	. = ..()
 	reagent_container = new /obj/item/reagent_containers/cup/saline(src)
-
-/obj/machinery/iv_drip/saline/eject_beaker()
-	return
-
-/obj/machinery/iv_drip/saline/toggle_mode()
-	return
 
 ///modified IV that can be anchored and takes plumbing in- and output
 /obj/machinery/iv_drip/plumbing
@@ -406,6 +404,7 @@
 	base_icon_state = "plumb"
 	density = TRUE
 	use_internal_storage = TRUE
+	can_remove_beaker = FALSE
 
 /obj/machinery/iv_drip/plumbing/Initialize(mapload)
 	. = ..()
