@@ -36,6 +36,9 @@
 /datum/round_event/carp_migration/setup()
 	start_when = rand(40, 60)
 
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_LOST_ORBIT))
+		carp_type = /mob/living/basic/carp/angler
+
 /datum/round_event/carp_migration/announce(fake)
 	priority_announce("[fluff_signal] have been detected near [station_name()], please stand-by.", "Lifesign Alert")
 

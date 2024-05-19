@@ -50,3 +50,13 @@
 /atom/movable/screen/parallax_layer/random/asteroids
 	icon_state = "asteroids"
 	layer = 4
+
+/// Darkened parallax for the 'lost orbit' station trait
+/atom/movable/screen/parallax_layer/random/dark
+	icon_state = "dark"
+	speed = 1
+	layer = /atom/movable/screen/parallax_layer/layer_3::layer + 1
+
+/atom/movable/screen/parallax_layer/random/dark/apply_global_effects()
+	. = ..()
+	set_base_starlight("#000000", 0, 0)

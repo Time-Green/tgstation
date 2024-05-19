@@ -269,7 +269,7 @@
 ///Wild carp that just vibe ya know
 /mob/living/basic/carp/passive
 	name = "passive carp"
-	desc = "A timid, sucker-bearing creature that resembles a fish. "
+	desc = "A timid, sucker-bearing creature that resembles a fish. Would."
 
 	icon_state = "base_friend"
 	icon_living = "base_friend"
@@ -287,3 +287,21 @@
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/pet_bonus, "bloops happily!")
+
+/// ANGLER CARP WITH COOL LIGHT
+/mob/living/basic/carp/angler
+	name = "angler carp"
+	desc = "A ferocious, fang-bearing creature that resembles an angler fish."
+
+	icon_state = "angler"
+	icon_living = "angler"
+	icon_dead = "base_dead"
+	greyscale_config = /datum/greyscale_config/carp_angler
+
+/mob/living/basic/carp/angler/Initialize(mapload, mob/tamer)
+	. = ..()
+	update_icon(UPDATE_OVERLAYS)
+
+/mob/living/basic/carp/angler/update_overlays()
+	. = ..()
+	. += emissive_appearance('icons/mob/simple/carp.dmi', "angler_light", src, alpha = src.alpha)

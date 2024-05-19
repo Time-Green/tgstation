@@ -701,6 +701,8 @@
 	if(istype(get_area(thing_to_color), /area/station/hallway)) //color hallways green
 		return COLOR_GREEN
 
+#undef GLOW_NEBULA
+
 ///Starts a storm on roundstart
 /datum/station_trait/storm
 	abstract_type = /datum/station_trait/storm
@@ -722,4 +724,18 @@
 
 	storm_type = /datum/weather/snow_storm/forever_storm
 
-#undef GLOW_NEBULA
+/datum/station_trait/nebula/lost_orbit
+	name = "Lost Orbit"
+	trait_type = STATION_TRAIT_NEGATIVE
+	weight = 1
+	force = TRUE
+	show_in_report = TRUE
+	report_message = "Wherever we are, we're far from any visible stars..."
+
+	trait_to_give = STATION_TRAIT_LOST_ORBIT
+
+	nebula_layer = /atom/movable/screen/parallax_layer/random/dark
+	carp_color_override = list(
+		COLOR_CARP_DARK = 10,
+		COLOR_CARP_RED = 1
+	)
