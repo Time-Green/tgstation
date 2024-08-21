@@ -46,6 +46,14 @@
 	. = ..()
 	set_base_starlight("#189156")
 
+/// Space gas but BLUE for the bluespace nebula station trait
+/atom/movable/screen/parallax_layer/random/space_gas/bluespace
+	parallax_color = list(0,0,0,0, 0,0,0,0, 0,0,2,0, 0,0,0,1, 0,0,0,0) //very vibrant green
+
+/atom/movable/screen/parallax_layer/random/space_gas/bluespace/apply_global_effects()
+	. = ..()
+	set_base_starlight("#084cca")
+
 /// Big asteroid rocks appear in the background
 /atom/movable/screen/parallax_layer/random/asteroids
 	icon_state = "asteroids"
