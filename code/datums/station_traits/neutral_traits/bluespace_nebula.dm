@@ -7,25 +7,37 @@
 	blacklist = list(/datum/station_trait/nebula/hostile/radiation)
 
 	/// Area's influenced by the bluespace stuff
-	var/bluespaced_areas = /area/space
+	var/bluespaced_areas = list(/area/space, /area/station/solars)
 
 /datum/station_trait/nebula/bluespace/New()
 	. = ..()
 
-	for(var/area/target as anything in get_areas(bluespaced_areas))
+	var/old_list = bluespaced_areas
+	for(var/area_type in old_list)
+		bluespaced_areas += subtypesof(area_type)
+
+	var/list/area_instances = list()
+	for(var/area_type in bluespaced_areas)
+		area_instances |= get_areas(bluespaced_areas)
+
+	for(var/area/target as anything in area_instances)
 		RegisterSignal(target, COMSIG_AREA_ENTERED, PROC_REF(on_entered))
 		RegisterSignal(target, COMSIG_AREA_EXITED, PROC_REF(on_exited))
 
 /datum/station_trait/nebula/bluespace/proc/on_entered(area/space, atom/movable/enterer, area/old_area)
 	SIGNAL_HANDLER
 
-	if(isliving(enterer))
+	if(isliving(enterer) && !(old_area.type in bluespaced_areas))
 		enterer.AddElement(/datum/element/bluespace_swimmy_movement)
 
 /datum/station_trait/nebula/bluespace/proc/on_exited(area/space, atom/movable/exiter, direction)
 	SIGNAL_HANDLER
 
-	if(isliving(exiter))
+	if(!isliving(exiter))
+		return
+
+	var/area/new_area = get_area(exiter)
+	if(!(new_area in bluespaced_areas))
 		exiter.RemoveElement(/datum/element/bluespace_swimmy_movement)
 
 /datum/element/bluespace_swimmy_movement
@@ -46,10 +58,18 @@
 	living.clear_fullscreen("bluespace", 0.5 SECONDS)
 
 /atom/movable/screen/fullscreen/bluespace_engulfed
-	icon_state = "bluespace"
+	icon_state = "bluespace1"
+	/// Icon states we use at certain times
+	var/list/icon_changes = list(
+		"bluespace2" = 30 SECONDS,
+		"bluespace3" = 90 SECONDS,
+	)
 
 /atom/movable/screen/fullscreen/bluespace_engulfed/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 
 	alpha = 0
 	animate(src, alpha = 255, time = 0.5 SECONDS)
+
+	for(var/new_icon_state in icon_changes)
+		addtimer(VARSET_CALLBACK(src, icon_state, new_icon_state), icon_changes[new_icon_state])
