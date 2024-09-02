@@ -73,3 +73,42 @@
 
 	for(var/new_icon_state in icon_changes)
 		addtimer(VARSET_CALLBACK(src, icon_state, new_icon_state), icon_changes[new_icon_state])
+
+/// Crate that is a clam >:)
+/obj/structure/closet/crate/clam
+	name = "clam"
+	desc = "A beautifully ornate, but completely biological, clam."
+	icon = 'icons/obj/bluespace_nebula/clam.dmi'
+	icon_state = "clam"
+	base_icon_state = "clam"
+
+/obj/structure/flora/coral
+	name = "space coral"
+	desc = "Coral but in space."
+	icon = 'icons/obj/bluespace_nebula/reefgrow.dmi'
+	icon_state = "crystal_reef"
+	base_icon_state = "crystal_reef"
+	gender = PLURAL
+	product_types = list(/obj/item/food/grown/ash_flora/shavings = 1)
+	harvest_with_hands = TRUE
+	harvested_name = "small coral"
+	harvested_desc = "If left alone, will grow to be a big and strong coral."
+	harvest_message_low = "You pick some of the coral."
+	harvest_message_med = "You pick a portion of the coral."
+	harvest_message_high = "You pick a large chunk of coral."
+	harvest_message_true_thresholds = TRUE
+	harvest_verb = "pick"
+	flora_flags = FLORA_HERBAL
+	/// Variants we have, used for icons. icon_state = base_icon_state + "[variants]"
+	var/variants = 3
+
+/obj/structure/flora/coral/Initialize(mapload)
+	. = ..()
+	base_icon_state = "[base_icon_state][rand(1, number_of_variants)]"
+	icon_state = base_icon_state
+
+/obj/structure/flora/coral/electric
+	name = "electric space coral"
+	desc = "Shocking!"
+	icon_state = "reefelectric"
+	base_icon_state = "reefelectric"
