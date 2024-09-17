@@ -66,6 +66,8 @@
 	var/birth_limit = 4
 	///How little neighbours does a alive cell need to die
 	var/death_limit = 3
+	/// If TRUE, we generate features, flora etc in whatever we consider to be the closed turfs
+	var/generate_in_closed_turfs = FALSE
 
 
 /datum/map_generator/cave_generator/New()
@@ -220,7 +222,7 @@
 	var/start_time = REALTIMEOFDAY
 
 	for(var/turf/target_turf as anything in turfs)
-		if(!(target_turf.type in open_turf_types)) //only put stuff on open turfs we generated, so closed walls and rivers and stuff are skipped
+		if(!(target_turf.type in open_turf_types) && !generate_in_closed_turfs) //only put stuff on open turfs we generated, so closed walls and rivers and stuff are skipped
 			continue
 
 		// If we've spawned something yet

@@ -20,6 +20,13 @@
 	min_ambience_cooldown = 195 SECONDS //length of ambispace.ogg
 	max_ambience_cooldown = 200 SECONDS
 
+/area/space/RunTerrainGeneration()
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_BLUESPACE_NEBULA) && type == /area/space)
+		map_generator = /datum/map_generator/cave_generator/space_coral
+		area_flags ^= FLORA_ALLOWED | CAVES_ALLOWED
+
+	return ..()
+
 /area/space/nearstation
 	icon_state = "space_near"
 	area_flags = UNIQUE_AREA

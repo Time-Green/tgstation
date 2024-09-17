@@ -3,6 +3,8 @@
 	weight = 1
 	force = TRUE
 
+	trait_to_give = STATION_TRAIT_BLUESPACE_NEBULA
+
 	nebula_layer = /atom/movable/screen/parallax_layer/random/space_gas/bluespace
 	blacklist = list(/datum/station_trait/nebula/hostile/radiation)
 
@@ -99,8 +101,8 @@
 	harvest_message_true_thresholds = TRUE
 	harvest_verb = "pick"
 	flora_flags = FLORA_HERBAL
-	/// Variants we have, used for icons. icon_state = base_icon_state + "[variants]"
-	var/variants = 3
+	/// Variants we have, used for icons. icon_state = base_icon_state + "[number_of_variants]"
+	var/number_of_variants = 3
 
 /obj/structure/flora/coral/Initialize(mapload)
 	. = ..()
@@ -112,3 +114,19 @@
 	desc = "Shocking!"
 	icon_state = "reefelectric"
 	base_icon_state = "reefelectric"
+
+/datum/map_generator/cave_generator/space_coral
+	initial_closed_chance = 50
+	weighted_open_turf_types = list(/turf/open/space = 1)
+	weighted_closed_turf_types = list(/turf/open/misc/ironsand/coral = 1)
+
+	flora_spawn_chance = 20
+	weighted_flora_spawn_list = list(
+		/obj/structure/flora/coral = 80,
+		/obj/structure/flora/coral/electric = 20,
+	)
+	feature_spawn_chance = 1
+	weighted_feature_spawn_list = list(/obj/structure/closet/crate/clam = 1)
+
+/turf/open/misc/ironsand/coral
+	initial_gas_mix = AIRLESS_ATMOS
