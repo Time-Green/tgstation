@@ -15,7 +15,7 @@
 /datum/surgery_visual/opened/head/apply_to(mob/living/carbon/owner, obj/item/bodypart/bodypart)
 	. = ..()
 
-	owner.add_filter("head is cut open", 1, list(type = "alpha", icon = icon('icons/mob/human/species/misc/bodypart_overlay_simple.dmi', "half_head_mask"), head_filter))
+	owner.add_filter("head is cut open", 1, list(type = "alpha", icon = icon('icons/mob/human/species/misc/bodypart_overlay_simple.dmi', "half_head_mask")))
 
 /datum/surgery_visual/opened/head/remove_from(mob/living/carbon/owner, obj/item/bodypart/bodypart)
 	. = ..()
