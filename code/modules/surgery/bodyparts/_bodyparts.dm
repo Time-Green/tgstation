@@ -1117,6 +1117,7 @@
 					. += overlay.get_overlay(external_layer, src)
 			for(var/datum/layer in .)
 				overlay.modify_bodypart_appearance(layer)
+
 	return .
 
 /obj/item/bodypart/proc/huskify_image(image/thing_to_husk, draw_blood = TRUE)

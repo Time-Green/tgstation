@@ -10,6 +10,8 @@
 	var/status = 1
 	///All steps the surgery has to do to complete.
 	var/list/steps = list()
+	/// List of /datum/visual_surgery datums, MUST BE LAZY OR THE SAME AS LENGTH AS STEPS. Positions correspond to positions in steps
+	var/list/step_visuals = list()
 	///Boolean on whether a surgery step is currently being done, to prevent multi-surgery.
 	var/step_in_progress = FALSE
 
@@ -56,9 +58,11 @@
 		operated_wound = operated_bodypart.get_wound_type(targetable_wound)
 		operated_wound.attached_surgery = src
 
+	update_visuals()
 	SEND_SIGNAL(surgery_target, COMSIG_MOB_SURGERY_STARTED, src, surgery_location, surgery_bodypart)
 
 /datum/surgery/Destroy()
+	cleanup_visuals()
 	if(operated_wound)
 		operated_wound.attached_surgery = null
 		operated_wound = null
@@ -67,7 +71,6 @@
 	target = null
 	operated_bodypart = null
 	return ..()
-
 
 /datum/surgery/proc/can_start(mob/user, mob/living/patient) //FALSE to not show in list
 	SHOULD_CALL_PARENT(TRUE)
@@ -126,6 +129,7 @@
 	if(tool)
 		tool = tool.get_proxy_attacker_for(target, user)
 	if(surgery_step.try_op(user, target, user.zone_selected, tool, src, try_to_fail))
+		update_visuals()
 		return TRUE
 	if(!tool)
 		return FALSE
@@ -162,6 +166,37 @@
 		return null
 
 	return operating_computer
+
+/datum/surgery/proc/update_visuals()
+	if(!iscarbon(target) || !step_visuals) //we need to have bodyparts for this
+		return
+
+	var/obj/item/bodypart/bodypart = target.get_bodypart(location)
+
+	if(!bodypart) //stuff like reattaching limbs is a very deep rabbithole
+		return
+
+	var/datum/surgery_visual/old_visual
+	if(status != 1)
+		old_visual = step_visuals[status - 1]
+	var/datum/surgery_visual/new_visual = step_visuals[status]
+
+	if(old_visual == new_visual) //nothing changes
+		return
+
+	if(old_visual)
+		var/datum/surgery_visual/visual = GLOB.surgery_visuals[old_visual]
+		visual = GLOB.surgery_visuals[visual.type_to_slot[location]]
+		visual.remove_from(target, bodypart)
+
+	if(new_visual)
+		var/datum/surgery_visual/visual = GLOB.surgery_visuals[new_visual]
+		visual = GLOB.surgery_visuals[visual.type_to_slot[location]]
+		visual.apply_to(target, bodypart)
+
+/datum/surgery/proc/cleanup_visuals()
+	var/datum/surgery_step/surgery_step = GLOB.surgery_steps[steps[status]]
+	update_visuals(surgery_step, null)
 
 /datum/surgery/advanced
 	name = "advanced surgery"
