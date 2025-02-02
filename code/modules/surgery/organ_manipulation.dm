@@ -12,13 +12,13 @@
 		/datum/surgery_step/close,
 	)
 	step_visuals = list(
-		/datum/surgery_visual/draped,
-		/datum/surgery_visual/draped,
-		/datum/surgery_visual/draped,
-		/datum/surgery_visual/draped,
-		/datum/surgery_visual/draped,
-		/datum/surgery_visual/opened,
-		/datum/surgery_visual/draped,
+		SURGERY_VISUAL_DRAPED,
+		SURGERY_VISUAL_DRAPED,
+		SURGERY_VISUAL_DRAPED,
+		SURGERY_VISUAL_DRAPED,
+		SURGERY_VISUAL_DRAPED,
+		SURGERY_VISUAL_OPENED,
+		SURGERY_VISUAL_DRAPED,
 	)
 
 //So far, this surgery type should be the only way carbon mobs can be fishing spots, also because the comp doesn't allow dupes.

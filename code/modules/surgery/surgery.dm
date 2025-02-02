@@ -12,6 +12,8 @@
 	var/list/steps = list()
 	/// List of /datum/visual_surgery datums, MUST BE LAZY OR THE SAME AS LENGTH AS STEPS. Positions correspond to positions in steps
 	var/list/step_visuals = list()
+	/// Reference to the surgery visual we might have active
+	var/datum/surgery_visual/surgery_visual
 	///Boolean on whether a surgery step is currently being done, to prevent multi-surgery.
 	var/step_in_progress = FALSE
 
@@ -176,23 +178,18 @@
 	if(!bodypart) //stuff like reattaching limbs is a very deep rabbithole
 		return
 
-	var/datum/surgery_visual/old_visual
-	if(status != 1)
-		old_visual = step_visuals[status - 1]
-	var/datum/surgery_visual/new_visual = step_visuals[status]
+	var/list/index = step_visuals[status]
+	var/datum/surgery_visual/new_visual = index[location]
 
-	if(old_visual == new_visual) //nothing changes
-		return
+	if(surgery_visual)
+		if(surgery_visual.type == new_visual)//nothing changes
+			return
 
-	if(old_visual)
-		var/datum/surgery_visual/visual = GLOB.surgery_visuals[old_visual]
-		visual = GLOB.surgery_visuals[visual.type_to_slot[location]]
-		visual.remove_from(target, bodypart)
+		surgery_visual.remove_from()
 
 	if(new_visual)
-		var/datum/surgery_visual/visual = GLOB.surgery_visuals[new_visual]
-		visual = GLOB.surgery_visuals[visual.type_to_slot[location]]
-		visual.apply_to(target, bodypart)
+		new_visual = new new_visual ()
+		new_visual?.apply_to(target, bodypart)
 
 /datum/surgery/proc/cleanup_visuals()
 	var/datum/surgery_step/surgery_step = GLOB.surgery_steps[steps[status]]

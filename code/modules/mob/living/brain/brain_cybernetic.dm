@@ -5,6 +5,8 @@
 	organ_flags = ORGAN_ROBOTIC | ORGAN_VITAL
 	failing_desc = "seems to be broken, and will not work without repairs."
 
+	brain_overlay = /datum/bodypart_overlay/simple/brain/cybernetic
+
 /obj/item/organ/brain/cybernetic/brain_damage_examine()
 	if(suicided)
 		return span_info("Its circuitry is smoking slightly. They must not have been able to handle the stress of it all.")

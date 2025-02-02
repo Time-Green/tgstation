@@ -239,6 +239,7 @@
 #include "code\__DEFINES\supermatter.dm"
 #include "code\__DEFINES\supply_pods.dm"
 #include "code\__DEFINES\surgery.dm"
+#include "code\__DEFINES\surgery_visuals.dm"
 #include "code\__DEFINES\tcg.dm"
 #include "code\__DEFINES\text.dm"
 #include "code\__DEFINES\tgs.config.dm"

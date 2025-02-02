@@ -28,7 +28,6 @@
 	/// Two variables necessary for calculating whether we get a brain trauma or not
 	var/damage_delta = 0
 
-
 	var/list/datum/brain_trauma/traumas = list()
 
 	/// List of skillchip items, their location should be this brain.
@@ -44,6 +43,8 @@
 	var/can_smoothen_out = TRUE
 	/// We got smooth from being washed
 	var/smooth_brain = FALSE
+	/// Overlay we use when our skill is opened through surgery
+	var/datum/bodypart_overlay/simple/brain/brain_overlay = /datum/bodypart_overlay/simple/brain
 
 /obj/item/organ/brain/Initialize(mapload)
 	. = ..()
@@ -413,11 +414,15 @@
 	icon_state = "brain-x"
 	organ_traits = list(TRAIT_CAN_STRIP, TRAIT_PRIMITIVE)
 
+	brain_overlay = /datum/bodypart_overlay/simple/brain/green
+
 /obj/item/organ/brain/alien
 	name = "alien brain"
 	desc = "We barely understand the brains of terrestial animals. Who knows what we may find in the brain of such an advanced species?"
 	icon_state = "brain-x"
 	organ_traits = list(TRAIT_CAN_STRIP)
+
+	brain_overlay = /datum/bodypart_overlay/simple/brain/gray
 
 /obj/item/organ/brain/primitive //No like books and stompy metal men
 	name = "primitive brain"
@@ -441,12 +446,16 @@
 	organ_flags = ORGAN_MINERAL
 	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_LITERATE, TRAIT_CAN_STRIP, TRAIT_ROCK_METAMORPHIC)
 
+	brain_overlay = /datum/bodypart_overlay/simple/brain/golem
+
 /obj/item/organ/brain/lustrous
 	name = "lustrous brain"
 	desc = "This is your brain on bluespace dust. Not even once."
 	icon_state = "random_fly_4"
 	can_smoothen_out = FALSE
 	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_LITERATE, TRAIT_CAN_STRIP)
+
+	brain_overlay = /datum/bodypart_overlay/simple/brain/black
 
 // This fixes an edge case from species/regenerate_organs that would transfer the brain trauma before organ/on_mob_remove can remove it
 // Prevents wizards from using the magic mirror to gain bluespace_prophet trauma and then switching to another race
@@ -480,6 +489,8 @@
 	icon_state = "brain-x"
 	brain_size = 1.3
 	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_CAN_STRIP, TRAIT_LITERATE, TRAIT_REMOTE_TASTING)
+
+	brain_overlay = /datum/bodypart_overlay/simple/brain/gray
 
 ////////////////////////////////////TRAUMAS////////////////////////////////////////
 

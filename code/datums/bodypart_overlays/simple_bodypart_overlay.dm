@@ -7,9 +7,11 @@
 	var/icon = 'icons/mob/human/species/misc/bodypart_overlay_simple.dmi'
 	///Color we apply to our overlay (none by default)
 	var/draw_color
+	/// Appearance flags applied to the overlay
+	var/appearance_flags
 
 /datum/bodypart_overlay/simple/get_image(layer, obj/item/bodypart/limb)
-	return mutable_appearance(icon, icon_state, layer = layer)
+	return mutable_appearance(icon, icon_state, layer = layer, appearance_flags = appearance_flags)
 
 /datum/bodypart_overlay/simple/color_image(image/overlay, layer, obj/item/bodypart/limb)
 
@@ -35,3 +37,25 @@
 /datum/bodypart_overlay/simple/soul_pending_eyes
 	icon_state = "soul_pending_eyes"
 	layers = EXTERNAL_FRONT
+
+///Brain that pops out during surgery
+/datum/bodypart_overlay/simple/brain
+	icon_state = "brain"
+	icon = 'icons/mob/human/species/misc/organs.dmi'
+	layers = EXTERNAL_ADJACENT
+	appearance_flags = KEEP_APART
+
+/datum/bodypart_overlay/simple/brain/gray
+	icon_state = "brain_gray"
+
+/datum/bodypart_overlay/simple/brain/green
+	icon_state = "brain_green"
+
+/datum/bodypart_overlay/simple/brain/golem
+	icon_state = "brain_golem"
+
+/datum/bodypart_overlay/simple/brain/cybernetic
+	icon_state = "brain_cyber"
+
+/datum/bodypart_overlay/simple/brain/black
+	icon_state = "brain_black"
